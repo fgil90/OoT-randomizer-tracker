@@ -35,5 +35,5 @@
 }
 
 .grey{
-    filter: grayscale();
+    filter: grayscale(0.92);
 }
