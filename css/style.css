@@ -1,0 +1,39 @@
+:root{
+    --imgsize: 48px
+}
+
+.body,html{
+    background-color: #232323;
+    height:auto;
+    width:100%
+}
+
+.wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.grid{
+    display: grid;
+    padding:20px;
+    gap:5px;
+    grid-template-columns: auto auto auto auto auto auto;
+    width:360px
+}
+.grid div{
+    background-repeat:no-repeat;
+    background-size: contain;
+    height:var(--imgsize);
+    width:var(--imgsize);
+    cursor:pointer;
+    transition: 100ms;
+}
+
+.grid div:hover{
+    transform: scale(1.1);
+    transition: 100ms;
+}
+
+.grey{
+    filter: grayscale();
+}
