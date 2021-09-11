@@ -1,47 +1,72 @@
-:root{
-    --imgsize: 48px
+:root {
+  --imgsize: 48px;
 }
 
-.body,html{
-    background-color: #232323;
-    height:auto;
-    width:100%
+.body,
+html {
+  background-color: #232323;
+  height: auto;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
 }
 
-.wrapper{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 360px;
+  margin: auto;
 }
-.grid{
-    display: grid;
-    padding:20px;
-    gap:5px;
-    grid-template-columns: auto auto auto auto auto auto;
-    width:360px
+.wrapper .grid {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: auto auto auto auto auto auto;
 }
-.grid div{
-    background-repeat:no-repeat;
-    background-size: contain;
-    height:var(--imgsize);
-    width:var(--imgsize);
-    cursor:pointer;
-    transition: 100ms;
-}
-
-.grid div:hover{
-    transform: scale(1.1);
-    transition: 100ms;
+.grid div {
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: var(--imgsize);
+  width: var(--imgsize);
+  cursor: pointer;
+  transition: 100ms;
 }
 
-.grey{
-    filter: grayscale(0.92);
+.grid div:hover {
+  transform: scale(1.1);
+  transition: 100ms;
 }
 
-.skull-count{
-    color:white;
-    font-size: 25px;
-    font-weight: bold;
-    text-shadow: black 0 0 3px;
-    user-select: none;
+.woth-tracker {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap:10px;
+}
+
+.woth-tracker div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.woth-tracker input {
+  height: 30px;
+  margin:10px 0
+}
+.woth-tracker label {
+  color: white;
+  font-weight: bold;
+}
+
+.grey {
+  filter: grayscale(0.92);
+}
+
+.skull-count {
+  color: white;
+  font-size: 23px;
+  font-weight: bold;
+  text-shadow: black 0 0 3px;
+  user-select: none;
 }

@@ -6,6 +6,10 @@ const gridSizeY = 10
 const totalGridItems = gridSizeX * gridSizeY
 
 const grid = document.querySelector(".grid")
+const wothWrapper = document.querySelector(".wrapper-woth")
+const foolWrapper = document.querySelector(".wrapper-fool")
+const woth = document.querySelector("#woth")
+const fool = document.querySelector("#fool")
 
 const strengths = ["strength1", "strength2", "strength3"]
 const ocarinas = ["ocarina1", "ocarina2"]
@@ -48,6 +52,7 @@ for (let i = 0; i < totalGridItems; i++) {
         let tempArray = gridImageArray[yPosition][xPosition]
 
         gridItem.style.backgroundImage = `url(src/${tempArray[0]}.png)`
+        
         gridItem.addEventListener('click', function () {
             if (this.classList.contains("grey")) {
                 this.classList.remove('grey')
@@ -63,6 +68,9 @@ for (let i = 0; i < totalGridItems; i++) {
                 }
             }
         })
+
+        gridItem.add
+
         grid.appendChild(gridItem)
         continue
     }
