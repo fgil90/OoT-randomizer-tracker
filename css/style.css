@@ -1,5 +1,6 @@
 :root {
   --imgsize: 48px;
+  --wrappersize: 360px;
 }
 
 .body,
@@ -15,7 +16,7 @@ html {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: 360px;
+  max-width: var(--wrappersize);
   margin: auto;
 }
 .wrapper .grid {
@@ -38,32 +39,45 @@ html {
 }
 
 .woth-tracker {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap:0 10px;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px; */
+}
+
+.woth-tracker > div {
+  display:flex;
+  flex-direction: column;
+  width:100%
+}
+
+.woth-tracker > div > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap:10px;
-}
-
-.woth-tracker div {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .woth-tracker input {
   height: 30px;
-  margin:10px 0
+  min-width:30px;
+  margin: 10px 0;
 }
 .woth-tracker label {
   color: white;
   font-weight: bold;
+  word-wrap: break-word;
+  width: calc(var(--wrappersize) / 2 - 40px);
 }
 
 .grey {
   filter: grayscale(0.92);
 }
 
-.skull-count {
+.grid p {
   color: white;
   font-size: 23px;
   font-weight: bold;
