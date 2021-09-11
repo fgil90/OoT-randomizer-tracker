@@ -37,3 +37,11 @@
 .grey{
     filter: grayscale(0.92);
 }
+
+.skull-count{
+    color:white;
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: black 0 0 3px;
+    user-select: none;
+}

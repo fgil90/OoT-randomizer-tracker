@@ -1,12 +1,11 @@
 
 
 const gridSizeX = 6
-const gridSizeY = 9
+const gridSizeY = 10
 
 const totalGridItems = gridSizeX * gridSizeY
 
 const grid = document.querySelector(".grid")
-
 
 const strengths = ["strength1", "strength2", "strength3"]
 const ocarinas = ["ocarina1", "ocarina2"]
@@ -21,11 +20,11 @@ const gridImageArray =
         ["bombs", "bombchus", "magic_beans", "bow", hookshots, "megaton_hammer"],
         ["fire_arrows", "ice_arrows", "light_arrows", "dins_fire", "farores_wind", "nayrus_love"],
         ["kokiri_sword", "master_sword", "biggoron_sword", "deku_shield", "hylian_shield", "mirror_shield"],
-        ["rutos_letter", masks, 0, "kokiri_tunic", "goron_tunic", "zora_tunic"],
+        ["rutos_letter", masks, "skulltula", "kokiri_tunic", "goron_tunic", "zora_tunic"],
         [scales, wallets, strengths, "boots", "iron_boots", "hover_boots"],
         [0, 0, 0, 0, 0, 0],
         ["minuet_of_forest", "bolero_of_fire", "serenade_of_water", "requiem_of_spirit", "nocturne_of_shadow", "prelude_of_light"],
-        ["light_medallion", "forest_medallion", "fire_medallion", "water_medallion", "spirit_medallion", "shadow_medallion"]
+        ["light_medallion", "forest_medallion", "fire_medallion", "water_medallion", "spirit_medallion", "shadow_medallion"],
         [0, 0, 0, 0, 0, 0, 0]
     ]
 
@@ -35,16 +34,20 @@ for (let i = 0; i < totalGridItems; i++) {
     let yPosition = i / 6 >> 0
 
     let gridItem = document.createElement("div")
-    gridItem.dataset.x = xPosition
-    gridItem.dataset.y = yPosition
+    // gridItem.dataset.x = xPosition
+    // gridItem.dataset.y = yPosition
 
-    gridItem.classList.add('grey')
+    if (!(gridImageArray[yPosition][xPosition] == "skulltula" ||
+        gridImageArray[yPosition][xPosition] == "kokiri_tunic" ||
+        gridImageArray[yPosition][xPosition] == "boots")) {
+        gridItem.classList.add('grey')
+    }
 
     if (gridImageArray[yPosition][xPosition] instanceof Array) {
 
         let tempArray = gridImageArray[yPosition][xPosition]
 
-        gridItem.style.backgroundImage = `url(/src/${tempArray[0]}.png)`
+        gridItem.style.backgroundImage = `url(src/${tempArray[0]}.png)`
         gridItem.addEventListener('click', function () {
             if (this.classList.contains("grey")) {
                 this.classList.remove('grey')
@@ -52,7 +55,7 @@ for (let i = 0; i < totalGridItems; i++) {
             }
             for (let i = 0; i < tempArray.length; i++) {
                 if (this.style.backgroundImage.includes(tempArray[i])) {
-                    this.style.backgroundImage = `url(/src/${tempArray[(i + 1) % tempArray.length]}.png`;
+                    this.style.backgroundImage = `url(src/${tempArray[(i + 1) % tempArray.length]}.png`;
                     if (i + 1 > tempArray.length - 1) {
                         this.classList.add('grey')
                     }
@@ -63,7 +66,33 @@ for (let i = 0; i < totalGridItems; i++) {
         grid.appendChild(gridItem)
         continue
     }
-    gridItem.style.backgroundImage = `url(/src/${gridImageArray[yPosition][xPosition]}.png)`
+
+    gridItem.style.backgroundImage = `url(src/${gridImageArray[yPosition][xPosition]}.png)`
+
+    if (gridImageArray[yPosition][xPosition] == "skulltula") {
+        const skullCount = document.createElement("p")
+        skullCount.classList.add("skull-count")
+        skullCount.textContent = 0
+        gridItem.appendChild(skullCount)
+        gridItem.addEventListener('click', function () {
+            if (parseInt(skullCount.textContent) >= 100) {
+                skullCount.textContent = 100
+                return
+            }
+            skullCount.textContent = parseInt(skullCount.textContent) + 1;
+        })
+        gridItem.addEventListener('contextmenu', function (e) {
+            e.preventDefault()
+            if (parseInt(skullCount.textContent) <= 0) {
+                skullCount.textContent = 0
+                return
+            }
+            skullCount.textContent = parseInt(skullCount.textContent) - 1;
+        })
+        grid.appendChild(gridItem)
+        continue
+    }
+
     gridItem.addEventListener('click', function () {
         this.classList.toggle('grey')
     })
