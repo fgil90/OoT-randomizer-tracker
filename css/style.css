@@ -1,6 +1,6 @@
 :root {
   --imgsize: 48px;
-  --wrappersize: 360px;
+  --wrappersize: 350px;
 }
 
 .body,
@@ -9,6 +9,17 @@ html {
   height: auto;
   width: 100%;
   font-family: "Open Sans", sans-serif;
+  padding:0;
+  margin:0;
+}
+
+header{
+    display:none;
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    margin:10px 0;
 }
 
 .wrapper {
@@ -16,8 +27,8 @@ html {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  max-width: var(--wrappersize);
-  margin: auto;
+  width: var(--wrappersize);
+  margin: 20px auto;
 }
 .wrapper .grid {
   display: grid;
@@ -26,7 +37,7 @@ html {
 }
 .grid div {
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   height: var(--imgsize);
   width: var(--imgsize);
   cursor: pointer;
@@ -39,19 +50,15 @@ html {
 }
 
 .woth-tracker {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap:0 10px;
-  /* display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 10px; */
+    display: flex;
+    flex-direction: row;
+    gap:0 5px;
+    padding:20px 0;
 }
 
 .woth-tracker > div {
   display:flex;
   flex-direction: column;
-  width:100%
 }
 
 .woth-tracker > div > div {
@@ -64,6 +71,7 @@ html {
 .woth-tracker input {
   height: 30px;
   min-width:30px;
+  max-width: 160px;
   margin: 10px 0;
 }
 .woth-tracker label {
@@ -83,4 +91,27 @@ html {
   font-weight: bold;
   text-shadow: black 0 0 3px;
   user-select: none;
+}
+
+footer{
+    position: fixed;
+    color: #bbb;
+    font-size: 12px;
+    bottom:10px;
+    width:100%;
+    text-align: center;
+}
+
+@media screen and (min-width:700px){
+
+    header{display: block;}
+
+    .wrapper{
+        flex-direction: row;
+        align-items:flex-start;
+        justify-content: space-evenly;
+        width:auto;
+        max-width:1024px;
+    }
+
 }
