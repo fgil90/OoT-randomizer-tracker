@@ -52,7 +52,7 @@ for (let i = 0; i < totalGridItems; i++) {
         let tempArray = gridImageArray[yPosition][xPosition]
 
         gridItem.style.backgroundImage = `url(src/${tempArray[0]}.png)`
-        
+
         gridItem.addEventListener('click', function () {
             if (this.classList.contains("grey")) {
                 this.classList.remove('grey')
@@ -69,7 +69,22 @@ for (let i = 0; i < totalGridItems; i++) {
             }
         })
 
-        gridItem.add
+        gridItem.addEventListener("contextmenu", (e) => {
+            e.preventDefault()
+
+            for (let i = 0; i < tempArray.length; i++) {
+                if (e.target.style.backgroundImage.includes(tempArray[i])) {
+                    if (i - 1 <= -1 && !e.target.classList.contains('grey')) {
+                        e.target.classList.add('grey')
+                        return
+                    }
+                    
+                    e.target.classList.remove('grey')
+                    e.target.style.backgroundImage = `url(src/${tempArray[(i + tempArray.length - 1) % tempArray.length]}.png`;
+                    return
+                }
+            }
+        })
 
         grid.appendChild(gridItem)
         continue
@@ -104,6 +119,11 @@ for (let i = 0; i < totalGridItems; i++) {
     gridItem.addEventListener('click', function () {
         this.classList.toggle('grey')
     })
+    gridItem.addEventListener('contextmenu', (e) => {
+        e.preventDefault()
+        e.target.classList.toggle('grey')
+    })
+
 
     grid.appendChild(gridItem)
 }
