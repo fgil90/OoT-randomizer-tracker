@@ -82,15 +82,27 @@ header{
 }
 
 .grey {
-  filter: grayscale(0.92);
+  filter:grayscale(0.91);
+
 }
 
 .grid p {
   color: white;
-  font-size: 23px;
+  font-size: 14px;
   font-weight: bold;
   text-shadow: black 0 0 3px;
   user-select: none;
+  text-align: center;
+  vertical-align: middle;
+  line-height:var(--imgsize)
+}
+
+.skull-count{
+
+    font-size: 23px !important;
+    text-align: start !important;
+    line-height: initial !important;
+    
 }
 
 footer{
