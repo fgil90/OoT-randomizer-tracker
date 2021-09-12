@@ -22,11 +22,11 @@ const gridImageArray =
     [
         ["deku_stick", "slingshot", "boomerang", "deku_nut", ocarinas, "lens_of_truth"],
         ["bombs", "bombchus", "magic_beans", "bow", hookshots, "megaton_hammer"],
-        ["fire_arrows", "ice_arrows", "light_arrows", "dins_fire", "farores_wind", "nayrus_love"],
-        ["kokiri_sword", "master_sword", "biggoron_sword", "deku_shield", "hylian_shield", "mirror_shield"],
+        ["fire_arrows", "ice_arrows", "light_arrows", "kokiri_sword", "master_sword", "biggoron_sword"],
+        ["dins_fire", "farores_wind", "nayrus_love", "deku_shield", "hylian_shield", "mirror_shield"],
         ["rutos_letter", masks, "skulltula", "kokiri_tunic", "goron_tunic", "zora_tunic"],
         [scales, wallets, strengths, "boots", "iron_boots", "hover_boots"],
-        [0, 0, 0, 0, 0, 0],
+        ["zeldas_lullaby", "sarias_song", "eponas_song", "suns_song", "song_of_time", "song_of_storms"],
         ["minuet_of_forest", "bolero_of_fire", "serenade_of_water", "requiem_of_spirit", "nocturne_of_shadow", "prelude_of_light"],
         ["light_medallion", "forest_medallion", "fire_medallion", "water_medallion", "spirit_medallion", "shadow_medallion"],
         [0, 0, 0, 0, 0, 0, 0]
