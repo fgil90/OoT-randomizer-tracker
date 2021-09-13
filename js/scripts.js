@@ -6,10 +6,8 @@ const gridSizeY = 10
 const totalGridItems = gridSizeX * gridSizeY
 
 const grid = document.querySelector(".grid")
-const wothWrapper = document.querySelector(".wrapper-woth")
-const foolWrapper = document.querySelector(".wrapper-fool")
-const wothInput = document.querySelector("#woth")
-const foolInput = document.querySelector("#fool")
+const tipsWrapper = document.querySelector(".tips-wrapper")
+const tipInput = document.querySelector("#tip")
 
 const strengths = ["strength1", "strength2", "strength3"]
 const ocarinas = ["ocarina1", "ocarina2"]
@@ -167,7 +165,7 @@ for (let i = 0; i < totalGridItems; i++) {
 //Finish looping though all grid items
 //All grid items are initialized
 
-function createTrackedLocation(trackedLocation, anchor) {
+function addNewTip(tipTextContent, anchor) {
     const div = document.createElement('div')
     anchor.appendChild(div)
 
@@ -175,23 +173,28 @@ function createTrackedLocation(trackedLocation, anchor) {
     const checkbox = document.createElement("input")
 
     checkbox.type = "checkbox"
-    checkbox.classList.add("tracked-location")
+    checkbox.classList.add("location-tracker-checkbox")
+    checkbox.addEventListener('change', checkboxEventHandler = (e) => {
+        if (e.target.checked == true) {
+            label.style.textDecorationLine = "line-through"
+            return
+        }
+        label.style.textDecorationLine = "none"
+    })
+    checkbox.addEventListener('contextmenu', checkboxEventHandler = (e) => {
+        e.preventDefault()
+        e.target.parentNode.remove()
+    })
 
-    label.textContent = trackedLocation
+    label.textContent = tipTextContent
 
     div.appendChild(label)
     div.appendChild(checkbox)
 }
 
-wothInput.addEventListener("keydown", function (e) {
+tipInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
-        createTrackedLocation(this.value, wothWrapper)
-        this.value = ""
-    }
-})
-foolInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        createTrackedLocation(this.value, foolWrapper)
+        addNewTip(this.value, tipsWrapper)
         this.value = ""
     }
 })

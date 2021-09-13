@@ -9,17 +9,17 @@ html {
   height: auto;
   width: 100%;
   font-family: "Open Sans", sans-serif;
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
 }
 
-header{
-    display:none;
-    color: whitesmoke;
-    font-weight: bold;
-    font-size: 30px;
-    text-align: center;
-    margin:10px 0;
+header {
+  display: none;
+  color: whitesmoke;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  margin: 10px 0;
 }
 
 .wrapper {
@@ -49,41 +49,52 @@ header{
   transition: 100ms;
 }
 
-.woth-tracker {
-    display: flex;
-    flex-direction: row;
-    gap:0 5px;
-    padding:20px 0;
-}
-
-.woth-tracker > div {
-  display:flex;
-  flex-direction: column;
-}
-
-.woth-tracker > div > div {
+.tips-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 0 5px;
+  width: var(--wrappersize);
+}
+
+.input-wrapper {
+  display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 30px;
+  margin: 5px 0;
+  gap: 5px;
+}
+.input-wrapper input {
+  height: 30px;
+  flex-grow: 1;
+}
+.input-wrapper label {
+  flex-grow: 0;
 }
 
-.woth-tracker input {
+.input-wrapper ~ div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
   height: 30px;
-  min-width:30px;
-  max-width: 160px;
-  margin: 10px 0;
 }
-.woth-tracker label {
+
+.location-tracker-checkbox {
+  height:20px;
+  width:20px;
+}
+
+.input-wrapper label,
+.input-wrapper ~ div label {
   color: white;
   font-weight: bold;
   word-wrap: break-word;
-  width: calc(var(--wrappersize) / 2 - 40px);
+  max-width: calc(var(--wrappersize) - 50px);
 }
 
 .grey {
-  filter:grayscale(0.91);
-
+  filter: grayscale(0.91);
 }
 
 .grid p {
@@ -94,36 +105,34 @@ header{
   user-select: none;
   text-align: center;
   vertical-align: middle;
-  line-height:var(--imgsize)
+  line-height: var(--imgsize);
 }
 
-.skull-count{
-
-    font-size: 23px !important;
-    text-align: start !important;
-    line-height: initial !important;
-    
+.skull-count {
+  font-size: 23px !important;
+  text-align: start !important;
+  line-height: initial !important;
 }
 
-footer{
-    position: fixed;
-    color: #bbb;
-    font-size: 12px;
-    bottom:10px;
-    width:100%;
-    text-align: center;
+footer {
+  position: fixed;
+  color: #bbb;
+  font-size: 12px;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
 }
 
-@media screen and (min-width:700px){
+@media screen and (min-width: 700px) {
+  header {
+    display: block;
+  }
 
-    header{display: block;}
-
-    .wrapper{
-        flex-direction: row;
-        align-items:flex-start;
-        justify-content: space-evenly;
-        width:auto;
-        max-width:1024px;
-    }
-
+  .wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    width: auto;
+    max-width: 1024px;
+  }
 }
