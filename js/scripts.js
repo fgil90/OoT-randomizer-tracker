@@ -171,21 +171,27 @@ function addNewTip(tipTextContent, anchor) {
 
     const label = document.createElement("label")
     const checkbox = document.createElement("input")
+    const deleteButton = document.createElement("button")
 
     checkbox.type = "checkbox"
     checkbox.classList.add("location-tracker-checkbox")
 
-    checkbox.addEventListener('change', checkboxEventHandler = (e) => {
+    deleteButton.classList.add('delete-button')
+    deleteButton.textContent = "✖"
+
+    checkbox.addEventListener('change', slashLineThroughTip = (e) => {
         if (e.target.checked == true) {
-            label.style.textDecorationLine = "line-through"
+            label.classList.add('completed')
             return
         }
-        label.style.textDecorationLine = "none"
+        label.classList.remove('completed')
     })
-    checkbox.addEventListener('contextmenu', checkboxEventHandler = (e) => {
+    checkbox.addEventListener('contextmenu', removeTip = (e) => {
         e.preventDefault()
         e.target.parentNode.remove()
     })
+
+    deleteButton.addEventListener('click', removeTip)
 
     if (tipTextContent.toLowerCase().includes("woth") ||
         tipTextContent.toLowerCase().includes("hero")) {
@@ -193,12 +199,12 @@ function addNewTip(tipTextContent, anchor) {
     }
     if (tipTextContent.toLowerCase().includes("fool")) {
         label.style.color = "#f07069"
-
     }
     label.textContent = tipTextContent
 
     div.appendChild(label)
     div.appendChild(checkbox)
+    div.appendChild(deleteButton)
 }
 
 tipInput.addEventListener("keydown", function (e) {

@@ -78,10 +78,25 @@ header {
   align-items: center;
   margin: 5px 0;
 }
+.input-wrapper ~ div label{
+flex-grow: 1;
+}
 
 .location-tracker-checkbox {
   height: 20px;
   width: 20px;
+  margin:3px;
+  flex-grow:0;
+}
+
+.delete-button{
+  padding: 0;
+  height:20px;
+  width:20px;
+  line-height: 0;
+  vertical-align: middle;
+  margin:3px;
+  flex-grow:0;
 }
 
 .input-wrapper label,
@@ -94,6 +109,10 @@ header {
 
 .grey {
   filter: grayscale(0.91);
+}
+
+.completed{
+  filter: grayscale(.8) brightness(.5)
 }
 
 .grid p {
