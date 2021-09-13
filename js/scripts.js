@@ -174,6 +174,7 @@ function addNewTip(tipTextContent, anchor) {
 
     checkbox.type = "checkbox"
     checkbox.classList.add("location-tracker-checkbox")
+
     checkbox.addEventListener('change', checkboxEventHandler = (e) => {
         if (e.target.checked == true) {
             label.style.textDecorationLine = "line-through"
@@ -186,6 +187,14 @@ function addNewTip(tipTextContent, anchor) {
         e.target.parentNode.remove()
     })
 
+    if (tipTextContent.toLowerCase().includes("woth") ||
+        tipTextContent.toLowerCase().includes("hero")) {
+        label.style.color = "#40cf47"
+    }
+    if (tipTextContent.toLowerCase().includes("fool")) {
+        label.style.color = "#f07069"
+
+    }
     label.textContent = tipTextContent
 
     div.appendChild(label)
