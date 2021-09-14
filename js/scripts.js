@@ -209,7 +209,9 @@ function addNewTip(tipTextContent, anchor) {
 
 tipInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
-        addNewTip(this.value, tipsWrapper)
+        if (!this.value==''){
+            addNewTip(this.value, tipsWrapper)
+        }
         this.value = ""
     }
 })

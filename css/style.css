@@ -28,7 +28,7 @@ header {
   justify-content: center;
   flex-direction: column;
   width: var(--wrappersize);
-  margin: 20px auto 0;
+  margin: 40px auto 0;
 }
 .wrapper .grid {
   display: grid;
@@ -80,6 +80,7 @@ header {
 }
 .input-wrapper ~ div label{
 flex-grow: 1;
+width: 298px;
 }
 
 .location-tracker-checkbox {
@@ -132,15 +133,6 @@ flex-grow: 1;
   line-height: initial !important;
 }
 
-footer {
-  position: fixed;
-  color: #bbb;
-  font-size: 12px;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-}
-
 .instructions {
   position: absolute;
   display: none;
@@ -172,6 +164,15 @@ footer {
 }
 .instructions li {
   padding: 3px;
+}
+
+footer {
+  position: absolute;
+  color: #bbb;
+  font-size: 12px;
+  top: 10px;
+  width: 100%;
+  text-align: center;
 }
 
 @media screen and (min-width: 700px) {
