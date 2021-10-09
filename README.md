@@ -1,6 +1,6 @@
 # Simple OOT Rando Tracker
 
-Foobar is a Python library for dealing with word pluralization.
+This is a simple tracker for OOT Rando. It's better suited for settings that don't include entrance randomizer.
 
 ## Installation
 
