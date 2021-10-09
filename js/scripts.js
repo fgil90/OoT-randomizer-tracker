@@ -64,6 +64,8 @@ for (let i = 0; i < totalGridItems; i++) {
             gridItem.appendChild(dungeonNameContainer)
 
             gridItem.addEventListener('click', function () {
+
+                //advance the list of dungeons by 1
                 currentIndex = tempArray.indexOf(dungeonNameContainer.textContent)
                 for (let i = currentIndex; i < tempArray.length; i++) {
                     dungeonNameContainer.textContent = tempArray[(i + 1) % tempArray.length]
@@ -71,6 +73,8 @@ for (let i = 0; i < totalGridItems; i++) {
                 }
             })
             gridItem.addEventListener('contextmenu', (e) => {
+
+                //go back the list of dungeons by 1
                 e.preventDefault();
                 currentIndex = tempArray.indexOf(dungeonNameContainer.textContent)
                 for (let i = currentIndex; i < tempArray.length; i++) {
