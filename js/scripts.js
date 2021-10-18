@@ -1,4 +1,17 @@
-
+const storage = window.localStorage;
+// let storedItems = [
+//     [false, false, false, false, 0, false],
+//     [false, false, false, false, 0, false],
+//     [false, false, false, false, false, 0],
+//     [false, false, false, false, false, false],
+//     [0, false, false, false, false, false],
+//     [0, 0, 0, false, false, 0],
+//     [false, false, false, false, false, false],
+//     [false, false, false, false, false, false],
+//     [false, false, false, false, false, false],
+//     [0, 0, 0, 0, 0, 0]
+// ]
+let storedTips = []
 
 const gridSizeX = 6
 const gridSizeY = 10
@@ -50,6 +63,7 @@ for (let i = 0; i < totalGridItems; i++) {
         gridItem.classList.add('grey')
     }
 
+
     //Is the grid item an array? If yes ...
 
     if (gridImageArray[yGrid][xGrid] instanceof Array) {
@@ -66,21 +80,16 @@ for (let i = 0; i < totalGridItems; i++) {
             gridItem.addEventListener('click', function () {
 
                 //advance the list of dungeons by 1
-                currentIndex = tempArray.indexOf(dungeonNameContainer.textContent)
-                for (let i = currentIndex; i < tempArray.length; i++) {
-                    dungeonNameContainer.textContent = tempArray[(i + 1) % tempArray.length]
-                    return
-                }
+                let currentIndex = tempArray.indexOf(dungeonNameContainer.textContent)
+                dungeonNameContainer.textContent = tempArray[(currentIndex + 1) % tempArray.length]
+
             })
             gridItem.addEventListener('contextmenu', (e) => {
 
                 //go back the list of dungeons by 1
                 e.preventDefault();
-                currentIndex = tempArray.indexOf(dungeonNameContainer.textContent)
-                for (let i = currentIndex; i < tempArray.length; i++) {
-                    dungeonNameContainer.textContent = tempArray[(i - 1 + tempArray.length) % tempArray.length]
-                    return
-                }
+                let currentIndex = tempArray.indexOf(dungeonNameContainer.textContent)
+                dungeonNameContainer.textContent = tempArray[(currentIndex - 1 + tempArray.length) % tempArray.length]
             })
             grid.appendChild(gridItem)
             continue
@@ -88,39 +97,39 @@ for (let i = 0; i < totalGridItems; i++) {
 
         // if it is an upgrade
 
-        gridItem.style.backgroundImage = `url(src/${tempArray[0]}.png)`
+        gridItem.style.backgroundImage = `url("src/${tempArray[0]}.png")`
 
         gridItem.addEventListener('click', function () {
             if (this.classList.contains('grey')) {
                 this.classList.remove('grey')
                 return
             }
-            for (let i = 0; i < tempArray.length; i++) {
-                if (this.style.backgroundImage.includes(tempArray[i])) {
-                    this.style.backgroundImage = `url(src/${tempArray[(i + 1) % tempArray.length]}.png`;
-                    if (i + 1 > tempArray.length - 1) {
-                        this.classList.add('grey')
-                    }
-                    return
-                }
+
+            let itemName = this.style.backgroundImage.substring(9)
+            itemName = itemName.substring(0, itemName.length - 6)
+
+            const nextIndex = (tempArray.indexOf(itemName) + 1) % tempArray.length
+            this.style.backgroundImage = `url("src/${tempArray[nextIndex]}.png")`;
+
+            if (nextIndex == 0) {
+                this.classList.add('grey')
             }
         })
 
         gridItem.addEventListener("contextmenu", (e) => {
             e.preventDefault()
 
-            for (let i = 0; i < tempArray.length; i++) {
-                if (e.target.style.backgroundImage.includes(tempArray[i])) {
-                    if (i - 1 <= -1 && !e.target.classList.contains('grey')) {
-                        e.target.classList.add('grey')
-                        return
-                    }
+            let itemName = e.target.style.backgroundImage.substring(9)
+            itemName = itemName.substring(0, itemName.length - 6)
 
-                    e.target.classList.remove('grey')
-                    e.target.style.backgroundImage = `url(src/${tempArray[(i + tempArray.length - 1) % tempArray.length]}.png`;
-                    return
-                }
+            const previousIndex = (tempArray.indexOf(itemName) - 1)
+            
+            if (previousIndex == -1 && !e.target.classList.contains("grey")){
+                e.target.classList.add('grey')
+                return
             }
+            e.target.classList.remove('grey')
+            e.target.style.backgroundImage = `url(src/${tempArray[(previousIndex + tempArray.length) % tempArray.length]}.png`;
         })
 
         grid.appendChild(gridItem)
@@ -169,7 +178,7 @@ for (let i = 0; i < totalGridItems; i++) {
 //Finish looping though all grid items
 //All grid items are initialized
 
-function addNewTip(tipTextContent, anchor) {
+function addNewTip(tipTextContent, anchor = tipsWrapper) {
     const div = document.createElement('div')
     anchor.appendChild(div)
 
@@ -213,8 +222,8 @@ function addNewTip(tipTextContent, anchor) {
 
 tipInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
-        if (!this.value==''){
-            addNewTip(this.value, tipsWrapper)
+        if (!this.value == '') {
+            addNewTip(this.value)
         }
         this.value = ""
     }
