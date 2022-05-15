@@ -201,7 +201,7 @@ function recedeSkull(event) {
   gridStorage[yGrid * gridSizeX + xGrid] = value;
 }
 
-function recedeRegularItem(event){
+function recedeRegularItem(event) {
   event.preventDefault();
   const xGrid = parseInt(this.dataset.xGrid);
   const yGrid = parseInt(this.dataset.yGrid);
@@ -212,7 +212,7 @@ function recedeRegularItem(event){
 
 }
 
-function recedeArray(event){
+function recedeArray(event) {
   event.preventDefault();
 
   const xGrid = parseInt(this.dataset.xGrid);
@@ -221,7 +221,7 @@ function recedeArray(event){
 
   const tempGridItem = gridItemArray[yGrid][xGrid];
   currentIndex--;
-  if (currentIndex==-1) currentIndex = tempGridItem.length-1
+  if (currentIndex == -1) currentIndex = tempGridItem.length - 1
   this.dataset.currentIndex = currentIndex;
   if (!this.style.backgroundImage) {
     const p = this.querySelector("p");
@@ -311,67 +311,69 @@ function generateDefaultGrid() {
     gridItem.addEventListener("contextmenu", recedeArray)
   }
 
- 
-
-function addNewTip(tipTextContent, anchor = tipsWrapper) {
-  const div = document.createElement("div");
-  anchor.appendChild(div);
-
-  const label = document.createElement("label");
-  const checkbox = document.createElement("input");
-  const deleteButton = document.createElement("button");
-
-  checkbox.type = "checkbox";
-  checkbox.classList.add("location-tracker-checkbox");
-
-  deleteButton.classList.add("delete-button");
-  deleteButton.textContent = "✖";
-
-  // storeTip(tipTextContent, false);
-
-  checkbox.addEventListener("change", (e) => {
-    //dim tip
-    if (e.target.checked == true) {
-      label.classList.add("completed");
-      // modifyTipStatus(tipTextContent, true);
-
-      return;
-    }
-    label.classList.remove("completed");
-    // modifyTipStatus(tip, false);
-  });
-  checkbox.addEventListener(
-    "contextmenu",
-    (removeTip = (e) => {
-      e.preventDefault();
-      unstoreTip(tipTextContent);
-      e.target.parentNode.remove();
-    })
-  );
-
-  deleteButton.addEventListener("click", removeTip);
-
-  if (
-    tipTextContent.toLowerCase().includes("woth") ||
-    tipTextContent.toLowerCase().includes("hero")
-  ) {
-    label.style.color = "#40cf47";
-  }
-  if (tipTextContent.toLowerCase().includes("fool")) {
-    label.style.color = "#f07069";
-  }
-  label.textContent = tipTextContent;
-
-  div.appendChild(label);
-  div.appendChild(checkbox);
-  div.appendChild(deleteButton);
 }
 
-tipInput.addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    if (!this.value == "") {
-      addNewTip(e.target.value);
+
+
+  function addNewTip(tipTextContent, anchor = tipsWrapper) {
+    const div = document.createElement("div");
+    anchor.appendChild(div);
+
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    const deleteButton = document.createElement("button");
+
+    checkbox.type = "checkbox";
+    checkbox.classList.add("location-tracker-checkbox");
+
+    deleteButton.classList.add("delete-button");
+    deleteButton.textContent = "✖";
+
+    // storeTip(tipTextContent, false);
+
+    checkbox.addEventListener("change", (e) => {
+      //dim tip
+      if (e.target.checked == true) {
+        label.classList.add("completed");
+        // modifyTipStatus(tipTextContent, true);
+
+        return;
+      }
+      label.classList.remove("completed");
+      // modifyTipStatus(tip, false);
+    });
+    checkbox.addEventListener(
+      "contextmenu",
+      (removeTip = (e) => {
+        e.preventDefault();
+        unstoreTip(tipTextContent);
+        e.target.parentNode.remove();
+      })
+    );
+
+    deleteButton.addEventListener("click", removeTip);
+
+    if (
+      tipTextContent.toLowerCase().includes("woth") ||
+      tipTextContent.toLowerCase().includes("hero")
+    ) {
+      label.style.color = "#40cf47";
     }
-    this.value = "";
+    if (tipTextContent.toLowerCase().includes("fool")) {
+      label.style.color = "#f07069";
+    }
+    label.textContent = tipTextContent;
+
+    div.appendChild(label);
+    div.appendChild(checkbox);
+    div.appendChild(deleteButton);
   }
-});
+
+  tipInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      if (!this.value == "") {
+        addNewTip(e.target.value);
+      }
+      this.value = "";
+    }
+  });
