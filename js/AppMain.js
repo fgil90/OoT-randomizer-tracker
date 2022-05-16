@@ -10,8 +10,31 @@ const gridSizeY = 10;
 const totalGridItems = gridSizeX * gridSizeY;
 
 let gridStorage = [];
-for (let i = 0; i < gridSizeX * gridSizeY; i++) {
-  gridStorage.push(0)
+let tipsStorage = {};
+
+initializeStorage();
+
+function initializeStorage() {
+  if (!localStorage.getItem("gridStorage")) {
+    resetGridStorage();
+    return;
+  }
+  gridStorage = localStorage.getItem("gridStorage").split(",");
+  gridStorage = gridStorage.map((value) => parseInt(value));
+}
+
+function updateStorage(object) {
+  const yGrid = parseInt(object.dataset.yGrid);
+  const xGrid = parseInt(object.dataset.xGrid);
+  const index = yGrid * gridSizeX + xGrid;
+  gridStorage[index] = parseInt(object.dataset.currentIndex);
+  localStorage.setItem("gridStorage", gridStorage.toString());
+}
+
+function resetGridStorage() {
+  for (let i = 0; i < gridSizeX * gridSizeY; i++) {
+    gridStorage.push(0)
+  }
 }
 
 const grid = document.querySelector(".grid");
@@ -143,8 +166,6 @@ const gridItemArray = [
 generateDefaultGrid();
 
 function advanceSkull(event) {
-  const xGrid = parseInt(this.dataset.xGrid);
-  const yGrid = parseInt(this.dataset.yGrid);
   let value = parseInt(this.dataset.currentIndex);
 
   const p = this.querySelector("p");
@@ -152,16 +173,17 @@ function advanceSkull(event) {
   if (value > 100) value = 0;
   p.textContent = value;
   this.dataset.currentIndex = value
-  gridStorage[yGrid * gridSizeX + xGrid] = value;
+  updateStorage(this);
 }
 
 function advanceRegularItem(event) {
-  const xGrid = parseInt(this.dataset.xGrid);
-  const yGrid = parseInt(this.dataset.yGrid);
+  let currentIndex = parseInt(this.dataset.currentIndex);
+  currentIndex++;
+  currentIndex %= 2;
+  this.dataset.currentIndex = currentIndex;
 
   this.classList.toggle("grey");
-  gridStorage[yGrid * gridSizeX + xGrid]++;
-  gridStorage[yGrid * gridSizeX + xGrid] %= 2;
+  updateStorage(this);
 }
 
 function advanceArray(event) {
@@ -173,6 +195,7 @@ function advanceArray(event) {
   currentIndex++;
   currentIndex %= tempGridItem.length;
   this.dataset.currentIndex = currentIndex;
+  updateStorage(this);
   if (!this.style.backgroundImage) {
     const p = this.querySelector("p");
     p.textContent = tempGridItem[currentIndex];
@@ -185,31 +208,31 @@ function advanceArray(event) {
   }
   this.style.backgroundImage = `url(src/${tempGridItem[currentIndex]}.png)`;
   this.classList.remove("grey");
+
 }
 
 function recedeSkull(event) {
   event.preventDefault();
-  const xGrid = parseInt(this.dataset.xGrid);
-  const yGrid = parseInt(this.dataset.yGrid);
   let value = parseInt(this.dataset.currentIndex);
 
   const p = this.querySelector("p");
   value--;
   if (value < 0) value = 100;
   p.textContent = value;
-  this.dataset.currentIndex = value
-  gridStorage[yGrid * gridSizeX + xGrid] = value;
+  this.dataset.currentIndex = value;
+  updateStorage(this);
+
 }
 
 function recedeRegularItem(event) {
   event.preventDefault();
-  const xGrid = parseInt(this.dataset.xGrid);
-  const yGrid = parseInt(this.dataset.yGrid);
+  let currentIndex = parseInt(this.dataset.currentIndex);
+  currentIndex --;
+  if (currentIndex < 0) currentIndex = 1
+  this.dataset.currentIndex = currentIndex;
 
   this.classList.toggle("grey");
-  gridStorage[yGrid * gridSizeX + xGrid]++;
-  gridStorage[yGrid * gridSizeX + xGrid] %= 2;
-
+  updateStorage(this);
 }
 
 function recedeArray(event) {
@@ -223,6 +246,8 @@ function recedeArray(event) {
   currentIndex--;
   if (currentIndex == -1) currentIndex = tempGridItem.length - 1
   this.dataset.currentIndex = currentIndex;
+  updateStorage(this);
+
   if (!this.style.backgroundImage) {
     const p = this.querySelector("p");
     p.textContent = tempGridItem[currentIndex];
@@ -313,67 +338,60 @@ function generateDefaultGrid() {
 
 }
 
+function addNewTip(tipTextContent, anchor = tipsWrapper) {
+  const div = document.createElement("div");
+  anchor.appendChild(div);
 
+  const label = document.createElement("label");
+  const checkbox = document.createElement("input");
+  const deleteButton = document.createElement("button");
 
-  function addNewTip(tipTextContent, anchor = tipsWrapper) {
-    const div = document.createElement("div");
-    anchor.appendChild(div);
+  checkbox.type = "checkbox";
+  checkbox.classList.add("location-tracker-checkbox");
 
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-    const deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete-button");
+  deleteButton.textContent = "✖";
 
-    checkbox.type = "checkbox";
-    checkbox.classList.add("location-tracker-checkbox");
-
-    deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "✖";
-
-    // storeTip(tipTextContent, false);
-
-    checkbox.addEventListener("change", (e) => {
-      //dim tip
-      if (e.target.checked == true) {
-        label.classList.add("completed");
-        // modifyTipStatus(tipTextContent, true);
-
-        return;
-      }
-      label.classList.remove("completed");
-      // modifyTipStatus(tip, false);
-    });
-    checkbox.addEventListener(
-      "contextmenu",
-      (removeTip = (e) => {
-        e.preventDefault();
-        unstoreTip(tipTextContent);
-        e.target.parentNode.remove();
-      })
-    );
-
-    deleteButton.addEventListener("click", removeTip);
-
-    if (
-      tipTextContent.toLowerCase().includes("woth") ||
-      tipTextContent.toLowerCase().includes("hero")
-    ) {
-      label.style.color = "#40cf47";
+  checkbox.addEventListener("change", (e) => {
+    //dim tip
+    if (e.target.checked == true) {
+      label.classList.add("completed");
+      return;
     }
-    if (tipTextContent.toLowerCase().includes("fool")) {
-      label.style.color = "#f07069";
-    }
-    label.textContent = tipTextContent;
-
-    div.appendChild(label);
-    div.appendChild(checkbox);
-    div.appendChild(deleteButton);
-  }
-
-  tipInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      if (!this.value == "") {
-        addNewTip(e.target.value);
-      }
-      this.value = "";
-    }
+    label.classList.remove("completed");
   });
+  checkbox.addEventListener(
+    "contextmenu",
+    (removeTip = (e) => {
+      e.preventDefault();
+      unstoreTip(tipTextContent);
+      e.target.parentNode.remove();
+    })
+  );
+
+  deleteButton.addEventListener("click", removeTip);
+
+  if (
+    tipTextContent.toLowerCase().includes("woth") ||
+    tipTextContent.toLowerCase().includes("hero")
+  ) {
+    label.style.color = "#40cf47";
+  }
+  if (tipTextContent.toLowerCase().includes("fool")) {
+    label.style.color = "#f07069";
+  }
+  label.textContent = tipTextContent;
+
+  div.appendChild(label);
+  div.appendChild(checkbox);
+  div.appendChild(deleteButton);
+}
+
+tipInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    if (!this.value == "") {
+      addNewTip(e.target.value);
+    }
+    this.value = "";
+  }
+});
