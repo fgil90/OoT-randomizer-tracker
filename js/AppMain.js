@@ -9,12 +9,24 @@ const gridSizeY = 10;
 
 const totalGridItems = gridSizeX * gridSizeY;
 
+const grid = document.querySelector(".grid");
+const tipsWrapper = document.querySelector(".tips-wrapper");
+const tipInput = document.querySelector("#tip");
+
 let gridStorage = [];
 let tipsStorage = {};
 
-initializeStorage();
+initializeGridStorage();
+loadStoredTips();
 
-function initializeStorage() {
+function loadStoredTips() {
+  const tips = JSON.parse(localStorage["tipsStorage"]);
+  Object.keys(tips).forEach(tip => {
+    addNewTip(tip, tips[tip]);
+  })
+}
+
+function initializeGridStorage() {
   if (!localStorage.getItem("gridStorage")) {
     resetGridStorage();
     return;
@@ -36,10 +48,6 @@ function resetGridStorage() {
     gridStorage.push(0)
   }
 }
-
-const grid = document.querySelector(".grid");
-const tipsWrapper = document.querySelector(".tips-wrapper");
-const tipInput = document.querySelector("#tip");
 
 const strengths = ["off", "strength1", "strength2", "strength3"];
 const ocarinas = ["off", "ocarina1", "ocarina2"];
@@ -227,7 +235,7 @@ function recedeSkull(event) {
 function recedeRegularItem(event) {
   event.preventDefault();
   let currentIndex = parseInt(this.dataset.currentIndex);
-  currentIndex --;
+  currentIndex--;
   if (currentIndex < 0) currentIndex = 1
   this.dataset.currentIndex = currentIndex;
 
@@ -338,8 +346,22 @@ function generateDefaultGrid() {
 
 }
 
-function addNewTip(tipTextContent, anchor = tipsWrapper) {
+function storeTip(content, checked) {
+  tipsStorage[content] = checked
+  localStorage.setItem("tipsStorage", JSON.stringify(tipsStorage))
+}
+
+function unstoreTip(content) {
+  delete tipsStorage[content];
+  console.log(tipsStorage);
+  localStorage.setItem("tipsStorage", JSON.stringify(tipsStorage))
+}
+
+function addNewTip(tipTextContent, checked = false, anchor = tipsWrapper) {
   const div = document.createElement("div");
+  div.dataset.content = tipTextContent;
+  div.dataset.checked = checked;
+  storeTip(tipTextContent, checked);
   anchor.appendChild(div);
 
   const label = document.createElement("label");
@@ -352,20 +374,30 @@ function addNewTip(tipTextContent, anchor = tipsWrapper) {
   deleteButton.classList.add("delete-button");
   deleteButton.textContent = "✖";
 
-  checkbox.addEventListener("change", (e) => {
+  if (checked) {
+    label.classList.add("completed");
+    checkbox.checked = true;
+    div.dataset.checked = true;
+  }
+
+  checkbox.addEventListener("change", completeTip = (e) => {
     //dim tip
-    if (e.target.checked == true) {
+    if (e.target.checked) {
       label.classList.add("completed");
-      return;
+      div.dataset.checked = true;
+    } else {
+      label.classList.remove("completed");
+      div.dataset.checked = false;
     }
-    label.classList.remove("completed");
+    storeTip(tipTextContent, div.dataset.checked == "true" ? true : false);
   });
+
   checkbox.addEventListener(
     "contextmenu",
     (removeTip = (e) => {
       e.preventDefault();
-      unstoreTip(tipTextContent);
       e.target.parentNode.remove();
+      unstoreTip(e.target.parentNode.dataset.content)
     })
   );
 
