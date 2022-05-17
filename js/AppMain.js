@@ -1,9 +1,3 @@
-//TODO
-// store tips and their status in localstorage as arrays
-// load tips from localstorage and create each tip on page load
-// store all item data as img + status classes and store it in a 2d array in local storage
-// load item data from local storage and populate the item grid with the correct images + status classes
-
 const gridSizeX = 6;
 const gridSizeY = 10;
 
@@ -20,6 +14,7 @@ initializeGridStorage();
 loadStoredTips();
 
 function loadStoredTips() {
+  if (!localStorage["tipsStorage"]) localStorage.setItem("tipsStorage", JSON.stringify(tipsStorage));
   const tips = JSON.parse(localStorage["tipsStorage"]);
   Object.keys(tips).forEach(tip => {
     addNewTip(tip, tips[tip]);
@@ -44,9 +39,18 @@ function updateStorage(object) {
 }
 
 function resetGridStorage() {
+  gridStorage = []
   for (let i = 0; i < gridSizeX * gridSizeY; i++) {
     gridStorage.push(0)
   }
+  localStorage['gridStorage'] = gridStorage;
+  location.reload();
+}
+
+function resetTipsStorage(){ 
+  tipsStorage = {};
+  localStorage['tipsStorage'] = JSON.stringify(tipsStorage);
+  location.reload();
 }
 
 const strengths = ["off", "strength1", "strength2", "strength3"];
@@ -168,8 +172,6 @@ const gridItemArray = [
     dungeons
   ],
 ];
-
-// Loop though all the grid items
 
 generateDefaultGrid();
 
@@ -353,7 +355,6 @@ function storeTip(content, checked) {
 
 function unstoreTip(content) {
   delete tipsStorage[content];
-  console.log(tipsStorage);
   localStorage.setItem("tipsStorage", JSON.stringify(tipsStorage))
 }
 
